@@ -160,12 +160,20 @@ class Main extends egret.DisplayObjectContainer {
         var offsetX=0;
         var offsetY=0;
         icon.$touchEnabled=true;
-        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
-            offsetX=0;
-            offsetY=0;
-            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,(e:egret.TouchEvent)=>{
-                offsetX=e.stageX-icon.x;
-                offsetY=e.stageY-icon.x;
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,startMove,this)
+        icon.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this)
+
+       /* var tween=egret.Tween.get(icon);
+        tween.to({x:100},2000).to({y:200},2000).call(function (){
+            alert("helloworld");
+        },this).to({x:20,y:45},1000);*/
+
+
+
+function startMove(e:egret.TouchEvent){
+            icon = e.currentTarget;
+            offsetX=e.stageX-icon.x;
+            offsetY=e.stageY-icon.x;
 
               /*  if(e.stageX>icon.x)
                     offsetX += icon.x;
@@ -175,29 +183,39 @@ class Main extends egret.DisplayObjectContainer {
                     else offsetY=icon.y-offsetY;*/
                 //offsetX += icon.x;
                // offsetY += icon.y
-               icon.x +=offsetX;
-               icon.y += offsetY;
-                var tween=egret.Tween.get(icon);
-                tween.to({x:icon.x,y:icon.y},50);
+              // icon.x +=offsetX;
+               //icon.y += offsetY;
+            this.addChild(icon);
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,onMove,this)
 
-                console.log(icon.x);
-                console.log(icon.y);
-            },this)
+}
 
-        },this)
-        
-
-        icon.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
+function endMove(){
             
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onMove,this);
+}
+function onMove(e:egret.TouchEvent){
+               // offsetX=e.stageX-icon.x;
+               // offsetY=e.stageY-icon.x;
 
-        },this)
+              /*  if(e.stageX>icon.x)
+                    offsetX += icon.x;
+                    else offsetX=icon.x-offsetX;
+                if(e.stageY>icon.y)
+                    offsetY += icon.y;
+                    else offsetY=icon.y-offsetY;*/
+                //offsetX += icon.x;
+               // offsetY += icon.y
+              // icon.x +=offsetX;
+              // icon.y += offsetY;
+              //  var tween=egret.Tween.get(icon);
+              //  tween.to({x:icon.x,y:icon.y},50);
 
-       /* var tween=egret.Tween.get(icon);
-        tween.to({x:100},2000).to({y:200},2000).call(function (){
-            alert("helloworld");
-        },this).to({x:20,y:45},1000);*/
-
-
+              //  console.log(icon.x);
+              //  console.log(icon.y);
+              icon.x=e.stageX-offsetX;
+              icon.y=e.stageY-offsetY;
+}
 
         var line = new egret.Shape();
         line.graphics.lineStyle(2,0xffffff);
