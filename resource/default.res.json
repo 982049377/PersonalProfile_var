@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpgg,head_jpg,logo_jpg,star_jpg,head2_jpg,logo2_jpg",
+			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpgg,head_jpg,logo_jpg,star_jpg,head2_jpg,logo2_jpg,head3_jpg,logo3_jpg,star2_jpg",
 			"name": "preload"
 		}
 	],
@@ -50,6 +50,21 @@
 			"name": "logo2_jpg",
 			"type": "image",
 			"url": "assets/logo.jpg"
+		},
+		{
+			"name": "head3_jpg",
+			"type": "image",
+			"url": "assets/head.jpg"
+		},
+		{
+			"name": "logo3_jpg",
+			"type": "image",
+			"url": "assets/logo.jpg"
+		},
+		{
+			"name": "star2_jpg",
+			"type": "image",
+			"url": "assets/star.jpg"
 		}
 	]
 }

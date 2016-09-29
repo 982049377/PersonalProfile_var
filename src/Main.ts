@@ -140,20 +140,48 @@ class Main extends egret.DisplayObjectContainer {
         icon.$alpha=1;
 
 
-        icon.$touchEnabled=true;
+       /* icon.$touchEnabled=true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
-           // alert(1111);
-                /*var tween=egret.Tween.get(icon);
+               // alert(1111);
+                var tween=egret.Tween.get(icon);
                 tween.to({x:100},2000).to({y:200},2000).call(function (){
-                    //alert("helloworld");
-                },this).to({x:20,y:45},1000);*/
-            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
+                    //alert("helloworld")
+                },this).to({x:20,y:45},1000);
+                icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
                 console.log(icon.$getX);
                 console.log(icon.$getY);
+                var tween=egret.Tween.get(icon);
+                tween.to(icon.$getX,2000).to(icon.$getY,2000).call(function (){
+                    //alert("helloworld");
+                },this);
             },this)
-        },this);
+        },this);*/
 
+        var offsetX:number;
+        var offsetY:number;
+
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
+            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,(e:egret.TouchEvent)=>{
+                offsetX=e.stageX-icon.x;
+                offsetY=e.stageY-icon.x;
+
+                offsetX += icon.x;
+                offsetY += icon.y;
+
+                var tween=egret.Tween.get(icon);
+                tween.to({x:offsetX,y:offsetY},2000);
+
+                console.log(icon.x);
+                console.log(icon.y);
+            },this)
+
+        },this)
         
+
+        icon.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            
+
+        },this)
 
        /* var tween=egret.Tween.get(icon);
         tween.to({x:100},2000).to({y:200},2000).call(function (){

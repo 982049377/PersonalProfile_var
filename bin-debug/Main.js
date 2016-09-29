@@ -121,17 +121,37 @@ var Main = (function (_super) {
         icon.$setScaleX(0.6);
         icon.$setScaleY(0.6);
         icon.$alpha = 1;
-        icon.$touchEnabled = true;
+        /* icon.$touchEnabled=true;
+         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
+                // alert(1111);
+                 var tween=egret.Tween.get(icon);
+                 tween.to({x:100},2000).to({y:200},2000).call(function (){
+                     //alert("helloworld")
+                 },this).to({x:20,y:45},1000);
+                 icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
+                 console.log(icon.$getX);
+                 console.log(icon.$getY);
+                 var tween=egret.Tween.get(icon);
+                 tween.to(icon.$getX,2000).to(icon.$getY,2000).call(function (){
+                     //alert("helloworld");
+                 },this);
+             },this)
+         },this);*/
+        var offsetX;
+        var offsetY;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            // alert(1111);
-            /*var tween=egret.Tween.get(icon);
-            tween.to({x:100},2000).to({y:200},2000).call(function (){
-                //alert("helloworld");
-            },this).to({x:20,y:45},1000);*/
-            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
-                console.log(icon.$getX);
-                console.log(icon.$getY);
+            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE, function (e) {
+                offsetX = e.stageX - icon.x;
+                offsetY = e.stageY - icon.x;
+                offsetX += icon.x;
+                offsetY += icon.y;
+                var tween = egret.Tween.get(icon);
+                tween.to({ x: offsetX, y: offsetY }, 2000);
+                console.log(icon.x);
+                console.log(icon.y);
             }, _this);
+        }, this);
+        icon.addEventListener(egret.TouchEvent.TOUCH_END, function () {
         }, this);
         /* var tween=egret.Tween.get(icon);
          tween.to({x:100},2000).to({y:200},2000).call(function (){
