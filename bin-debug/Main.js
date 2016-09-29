@@ -101,7 +101,8 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.createGameScene = function () {
-        var sky = this.createBitmapByName("bg_jpg");
+        var _this = this;
+        var sky = this.createBitmapByName("head_jpg");
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
@@ -113,23 +114,42 @@ var Main = (function (_super) {
         topMask.graphics.endFill();
         topMask.y = 33;
         this.addChild(topMask);
-        var icon = this.createBitmapByName("egret_icon_png");
+        var icon = this.createBitmapByName("logo_jpg");
         this.addChild(icon);
-        icon.x = 26;
-        icon.y = 33;
+        icon.x = 20;
+        icon.y = 45;
+        icon.$setScaleX(0.6);
+        icon.$setScaleY(0.6);
+        icon.$alpha = 1;
+        icon.$touchEnabled = true;
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            // alert(1111);
+            /*var tween=egret.Tween.get(icon);
+            tween.to({x:100},2000).to({y:200},2000).call(function (){
+                //alert("helloworld");
+            },this).to({x:20,y:45},1000);*/
+            icon.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
+                console.log(icon.$getX);
+                console.log(icon.$getY);
+            }, _this);
+        }, this);
+        /* var tween=egret.Tween.get(icon);
+         tween.to({x:100},2000).to({y:200},2000).call(function (){
+             alert("helloworld");
+         },this).to({x:20,y:45},1000);*/
         var line = new egret.Shape();
         line.graphics.lineStyle(2, 0xffffff);
         line.graphics.moveTo(0, 0);
         line.graphics.lineTo(0, 117);
         line.graphics.endFill();
-        line.x = 172;
+        line.x = 220;
         line.y = 61;
         this.addChild(line);
         var colorLabel = new egret.TextField();
         colorLabel.textColor = 0xffffff;
         colorLabel.width = stageW - 172;
         colorLabel.textAlign = "center";
-        colorLabel.text = "Hello Egret";
+        colorLabel.text = "14081202";
         colorLabel.size = 24;
         colorLabel.x = 172;
         colorLabel.y = 80;
