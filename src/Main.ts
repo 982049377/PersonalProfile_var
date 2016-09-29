@@ -157,19 +157,28 @@ class Main extends egret.DisplayObjectContainer {
             },this)
         },this);*/
 
-        var offsetX:number;
-        var offsetY:number;
-
+        var offsetX=0;
+        var offsetY=0;
+        icon.$touchEnabled=true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
+            offsetX=0;
+            offsetY=0;
             icon.addEventListener(egret.TouchEvent.TOUCH_MOVE,(e:egret.TouchEvent)=>{
                 offsetX=e.stageX-icon.x;
                 offsetY=e.stageY-icon.x;
 
-                offsetX += icon.x;
-                offsetY += icon.y;
-
+              /*  if(e.stageX>icon.x)
+                    offsetX += icon.x;
+                    else offsetX=icon.x-offsetX;
+                if(e.stageY>icon.y)
+                    offsetY += icon.y;
+                    else offsetY=icon.y-offsetY;*/
+                //offsetX += icon.x;
+               // offsetY += icon.y
+               icon.x +=offsetX;
+               icon.y += offsetY;
                 var tween=egret.Tween.get(icon);
-                tween.to({x:offsetX,y:offsetY},2000);
+                tween.to({x:icon.x,y:icon.y},50);
 
                 console.log(icon.x);
                 console.log(icon.y);
