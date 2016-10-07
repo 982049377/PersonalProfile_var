@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpgg,head_jpg,logo_jpg,star_jpg,head2_jpg,logo2_jpg,head3_jpg,logo3_jpg,star2_jpg",
+			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpg,stara_jpg,dawn_jpg,earth_jpg,head_jpg,logo_jpg",
 			"name": "preload"
 		}
 	],
@@ -24,7 +24,7 @@
 		{
 			"url": "assets/star.jpg",
 			"type": "image",
-			"name": "star_jpgg"
+			"name": "star_jpg"
 		},
 		{
 			"url": "assets/head.jpg",
@@ -37,34 +37,19 @@
 			"name": "logo_jpg"
 		},
 		{
-			"name": "star_jpg",
+			"url": "assets/stara.jpg",
 			"type": "image",
-			"url": "assets/star.jpg"
+			"name": "stara_jpg"
 		},
 		{
-			"name": "head2_jpg",
+			"url": "assets/dawn.jpg",
 			"type": "image",
-			"url": "assets/head.jpg"
+			"name": "dawn_jpg"
 		},
 		{
-			"name": "logo2_jpg",
+			"url": "assets/earth.jpg",
 			"type": "image",
-			"url": "assets/logo.jpg"
-		},
-		{
-			"name": "head3_jpg",
-			"type": "image",
-			"url": "assets/head.jpg"
-		},
-		{
-			"name": "logo3_jpg",
-			"type": "image",
-			"url": "assets/logo.jpg"
-		},
-		{
-			"name": "star2_jpg",
-			"type": "image",
-			"url": "assets/star.jpg"
+			"name": "earth_jpg"
 		}
 	]
 }

@@ -97,28 +97,64 @@ var Main = (function (_super) {
         }
     };
     /**
-     * 创建游戏场景
+     * 创建主页
      * Create a game scene
      */
-    p.createGameScene = function () {
-        var sky = this.createBitmapByName("head_jpg");
+    p.creatindex = function () {
+        var sky = this.createBitmapByName("earth_jpg");
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        //加入换页
+        ///问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        /*
+         sky.touchEnabled=true;
+         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+             this.addChild(sky);
+             this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
+                 this.creatSecondPage();
+             },this)
+         },this);
+         sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
+     */
+    };
+    /**
+       * 创建第一页面
+       * Create a game scene
+       */
+    p.creatFirstPage = function () {
+        var _this = this;
+        var sky = this.createBitmapByName("dawn_jpg");
+        this.addChild(sky);
+        var stageW = this.stage.stageWidth;
+        var stageH = this.stage.stageHeight;
+        sky.width = stageW;
+        sky.height = stageH;
+        //加入换页
+        sky.touchEnabled = true;
+        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            offsetX = e.stageX - sky.x;
+            offsetY = e.stageY - sky.x;
+            _this.addChild(sky);
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
+                _this.creatSecondPage();
+            }, _this);
+        }, this);
+        sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
         var topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
         topMask.graphics.drawRect(0, 0, stageW, 172);
         topMask.graphics.endFill();
         topMask.y = 33;
         this.addChild(topMask);
-        var icon = this.createBitmapByName("logo_jpg");
+        var icon = this.createBitmapByName("head_jpg");
         this.addChild(icon);
         icon.x = 20;
         icon.y = 45;
-        icon.$setScaleX(0.6);
-        icon.$setScaleY(0.6);
+        icon.$setScaleX(0.4);
+        icon.$setScaleY(0.4);
         icon.$alpha = 1;
         /* icon.$touchEnabled=true;
          icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,()=>{
@@ -216,6 +252,99 @@ var Main = (function (_super) {
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this);
+    };
+    /**
+         * 创建第二页面
+         * Create a game scene
+         */
+    p.creatSecondPage = function () {
+        var _this = this;
+        var sky = this.createBitmapByName("stara_jpg");
+        this.addChild(sky);
+        var stageW = this.stage.stageWidth;
+        var stageH = this.stage.stageHeight;
+        sky.width = stageW;
+        sky.height = stageH;
+        //加入换页
+        sky.touchEnabled = true;
+        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            offsetX = e.stageX - sky.x;
+            offsetY = e.stageY - sky.x;
+            _this.addChild(sky);
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
+                //this.creatFirstPage();
+                _this.creatindex();
+            }, _this);
+        }, this);
+        sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
+        var topMask = new egret.Shape();
+        topMask.graphics.beginFill(0x000000, 0.5);
+        topMask.graphics.drawRect(0, 0, stageW, 172);
+        topMask.graphics.endFill();
+        topMask.y = 33;
+        this.addChild(topMask);
+        var icon = this.createBitmapByName("head_jpg");
+        this.addChild(icon);
+        icon.x = 20;
+        icon.y = 45;
+        icon.$setScaleX(0.4);
+        icon.$setScaleY(0.4);
+        icon.$alpha = 1;
+        var offsetX = 0;
+        var offsetY = 0;
+        icon.$touchEnabled = true;
+        icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
+        icon.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
+        function startMove(e) {
+            offsetX = e.stageX - icon.x;
+            offsetY = e.stageY - icon.x;
+            this.addChild(icon);
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
+        }
+        function endMove() {
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
+        }
+        function onMove(e) {
+            icon.x = e.stageX - offsetX;
+            icon.y = e.stageY - offsetY;
+        }
+        var line = new egret.Shape();
+        line.graphics.lineStyle(2, 0xffffff);
+        line.graphics.moveTo(0, 0);
+        line.graphics.lineTo(0, 117);
+        line.graphics.endFill();
+        line.x = 220;
+        line.y = 61;
+        this.addChild(line);
+        var colorLabel = new egret.TextField();
+        colorLabel.textColor = 0xffffff;
+        colorLabel.width = stageW - 172;
+        colorLabel.textAlign = "center";
+        colorLabel.text = "14081202";
+        colorLabel.size = 24;
+        colorLabel.x = 172;
+        colorLabel.y = 80;
+        this.addChild(colorLabel);
+        var textfield = new egret.TextField();
+        this.addChild(textfield);
+        textfield.alpha = 0;
+        textfield.width = stageW - 172;
+        textfield.textAlign = egret.HorizontalAlign.CENTER;
+        textfield.size = 24;
+        textfield.textColor = 0xffffff;
+        textfield.x = 172;
+        textfield.y = 135;
+        this.textfield = textfield;
+        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
+        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        RES.getResAsync("description_json", this.startAnimation, this);
+    };
+    /**
+     * 创建游戏场景
+     * Create a game scene
+     */
+    p.createGameScene = function () {
+        this.creatFirstPage();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
