@@ -34,6 +34,7 @@ class Main extends egret.DisplayObjectContainer {
      * Process interface loading
      */
     private loadingView:LoadingUI;
+    private loadingsecond:Second;
 
     public constructor() {
         super();
@@ -162,6 +163,7 @@ class Main extends egret.DisplayObjectContainer {
         icon.$touchEnabled=true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN,startMove,this)
         icon.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this)
+      //  icon.addEventListener(egret.TouchEvent.)
 
        /* var tween=egret.Tween.get(icon);
         tween.to({x:100},2000).to({y:200},2000).call(function (){
@@ -171,7 +173,7 @@ class Main extends egret.DisplayObjectContainer {
 
 
 function startMove(e:egret.TouchEvent){
-            icon = e.currentTarget;
+            //icon = e.currentTarget;
             offsetX=e.stageX-icon.x;
             offsetY=e.stageY-icon.x;
 

@@ -141,12 +141,13 @@ var Main = (function (_super) {
         icon.$touchEnabled = true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
         icon.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
+        //  icon.addEventListener(egret.TouchEvent.)
         /* var tween=egret.Tween.get(icon);
          tween.to({x:100},2000).to({y:200},2000).call(function (){
              alert("helloworld");
          },this).to({x:20,y:45},1000);*/
         function startMove(e) {
-            icon = e.currentTarget;
+            //icon = e.currentTarget;
             offsetX = e.stageX - icon.x;
             offsetY = e.stageY - icon.x;
             /*  if(e.stageX>icon.x)
