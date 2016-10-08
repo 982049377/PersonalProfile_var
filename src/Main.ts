@@ -122,7 +122,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
         var index=new egret.DisplayObjectContainer;
-      //  index.x=stageW;
+        index.y=0;
         index.width=stageW;
         index.height=stageH;
         this.addChild(index);
@@ -133,28 +133,6 @@ class Main extends egret.DisplayObjectContainer {
         var stageH:number = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
-        /**
-        //加入换页
-        //问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        sky.touchEnabled=true;
-        var offsetY=0
-        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            this.addChild(sky);
-            offsetY=e.stageY-sky.x;
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this)
-        },this);
-
-        sky.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this);
-        },this);
-
-        function onmove(){
-                if(offsetY>0)
-                    this.creatFirstPage();
-                else offsetY<0
-                    this.creatSecondPage();       }
-        */
-
 
           /**
            * 
@@ -163,7 +141,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
         var FirstPage=new egret.DisplayObjectContainer;
-       // FirstPage.x=stageW*2;
+        FirstPage.y=stageH;
         FirstPage.width=stageW;
         FirstPage.height=stageH;
         this.addChild(FirstPage);
@@ -288,13 +266,10 @@ function onMove(e:egret.TouchEvent){
         textfield.textColor = 0xffffff;
         textfield.x = 172;
         textfield.y = 135;
-        this.textfield = textfield;
+        this.textfield =textfield;
 
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        RES.getResAsync("description_json", this.startAnimation, this)
 
-         var label:egret.TextField = new egret.TextField();
+        var label:egret.TextField = new egret.TextField();
         FirstPage.addChild( label );
         label.x=48;
         label.y=240;
@@ -306,13 +281,20 @@ function onMove(e:egret.TouchEvent){
         label.italic = true;
         label.fontFamily="Microsoft YaHei";
         label.text = "个\n\n\n          人\n\n\n                    简\n\n\n                              历";
+
+
+        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
+        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        RES.getResAsync("description_json", this.startAnimation, this);
+
+
 /**
      * 创建第二页面
      * Create a game scene
      */
 
         var SecondPage=new egret.DisplayObjectContainer;
-      //  SecondPage.x=stageW*3;
+        SecondPage.y=stageH*2;
         SecondPage.width=stageW;
         SecondPage.height=stageH;
         this.addChild(SecondPage);
@@ -391,9 +373,6 @@ function onMove(e:egret.TouchEvent){
         textfield.y = 135;
         this.textfield = textfield;
 
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        RES.getResAsync("description_json", this.startAnimation, this)
 
         var Mask = new egret.Shape();
         Mask.graphics.beginFill(0x000000, 0.5);
@@ -412,7 +391,112 @@ function onMove(e:egret.TouchEvent){
         label.fontFamily="KaiTi";
         label.text = "姓名：王恒尊\n\n学号：14081202\n\n专业：数字媒体技术\n\n爱好：小说，音乐，游戏\n\n属性：宅\n\nQ Q：982049377\n\n微信：Monologue_whz\n\n目标：学好编程";
 
-        this.swapChildren(index,SecondPage);
+
+        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
+        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        RES.getResAsync("description_json", this.startAnimation, this)
+
+       // this.swapChildren(FirstPage,SecondPage);
+//主页的滚动
+        index.touchEnabled=true;
+        index.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+            offsetY=e.stageY;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,indexmovePage,this)
+        },this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,indexmovePage,this)
+        },this);
+
+        var indextween = egret.Tween.get(index);
+        var FirstPagetween = egret.Tween.get(FirstPage);
+        var SecondPagetween = egret.Tween.get(SecondPage);
+        function indexmovePage(e:egret.TouchEvent){
+            if(e.stageY<offsetY){
+
+               // indextween.to({ y: stageH * 2 }, 20, egret.Ease.sineIn);
+               // FirstPagetween.to({ y: 0 }, 20, egret.Ease.sineIn);
+               // SecondPagetween.to({ y: stageH }, 20, egret.Ease.sineIn);
+
+                FirstPage.y=0;
+                index.y=stageH*2;
+                SecondPage.y=stageH;
+            }
+            else e.stageY>offsetY
+            {
+                //indextween.to({y:stageH},20,egret.Ease.sineIn);
+                //FirstPagetween.to({y:stageH*2},20,egret.Ease.sineIn);
+                //SecondPagetween.to({y:0},20,egret.Ease.sineIn);
+
+                SecondPage.y=0;
+                index.y=stageH;
+                FirstPage.y=stageH*2;
+            }
+        }
+
+//第一页的滚动
+        FirstPage.touchEnabled=true;
+        FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+            offsetY=e.stageY;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,FirstPagemovePage,this)
+        },this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,FirstPagemovePage,this)
+        },this);
+        
+        
+        function FirstPagemovePage(e:egret.TouchEvent){
+            if(e.stageY>offsetY){
+                indextween.to({y:0},20);
+                FirstPagetween.to({y:stageH},20);
+                SecondPagetween.to({y:stageH*2},20);
+
+                //index.y=0;
+                //SecondPage.y=stageH*2;
+                //FirstPage.y=stageH;
+            }
+            else e.stageY<offsetY
+            {
+                indextween.to({y:stageH},20);
+                FirstPagetween.to({y:stageH*2},20);
+                SecondPagetween.to({y:0},20);
+
+               // SecondPage.y=0;
+                //index.y=stageH;
+                //FirstPage.y=stageH*2;
+            }
+        }
+        //第二页的滚动
+        SecondPage.touchEnabled=true;
+        SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+            offsetY=e.stageY;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,SecondPagemovepage,this)
+        },this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,SecondPagemovepage,this)
+        },this);
+        
+        
+        function SecondPagemovepage(e:egret.TouchEvent){
+            if(e.stageY>offsetY){
+                indextween.to({y:stageH*2},20);
+                FirstPagetween.to({y:0},20);
+                SecondPagetween.to({y:stageH},20);
+
+               // index.y=stageH*2;
+               // SecondPage.y=stageH;
+               // FirstPage.y=0;
+            }
+            else e.stageY<offsetY
+            {
+                indextween.to({y:0},20);
+                FirstPagetween.to({y:stageH},20);
+                SecondPagetween.to({y:stageH*2},20);
+
+               // index.y=0;
+               // FirstPage.y=stageH;
+               // SecondPage.y=stageH*2;
+            }
+        }
 }
 
     /**

@@ -101,12 +101,13 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.createGameScene = function () {
+        var _this = this;
         /**
          * 创建主页
          * Create a game scene
          */
         var index = new egret.DisplayObjectContainer;
-        //  index.x=stageW;
+        index.y = 0;
         index.width = stageW;
         index.height = stageH;
         this.addChild(index);
@@ -117,34 +118,13 @@ var Main = (function (_super) {
         sky.width = stageW;
         sky.height = stageH;
         /**
-        //加入换页
-        //问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        sky.touchEnabled=true;
-        var offsetY=0
-        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            this.addChild(sky);
-            offsetY=e.stageY-sky.x;
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this)
-        },this);
-
-        sky.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this);
-        },this);
-
-        function onmove(){
-                if(offsetY>0)
-                    this.creatFirstPage();
-                else offsetY<0
-                    this.creatSecondPage();       }
-        */
-        /**
          *
          *
    * 创建第一页面
    * Create a game scene
    */
         var FirstPage = new egret.DisplayObjectContainer;
-        // FirstPage.x=stageW*2;
+        FirstPage.y = stageH;
         FirstPage.width = stageW;
         FirstPage.height = stageH;
         this.addChild(FirstPage);
@@ -255,9 +235,6 @@ var Main = (function (_super) {
         textfield.x = 172;
         textfield.y = 135;
         this.textfield = textfield;
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        RES.getResAsync("description_json", this.startAnimation, this);
         var label = new egret.TextField();
         FirstPage.addChild(label);
         label.x = 48;
@@ -270,12 +247,15 @@ var Main = (function (_super) {
         label.italic = true;
         label.fontFamily = "Microsoft YaHei";
         label.text = "个\n\n\n          人\n\n\n                    简\n\n\n                              历";
+        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
+        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        RES.getResAsync("description_json", this.startAnimation, this);
         /**
              * 创建第二页面
              * Create a game scene
              */
         var SecondPage = new egret.DisplayObjectContainer;
-        //  SecondPage.x=stageW*3;
+        SecondPage.y = stageH * 2;
         SecondPage.width = stageW;
         SecondPage.height = stageH;
         this.addChild(SecondPage);
@@ -346,9 +326,6 @@ var Main = (function (_super) {
         textfield.x = 172;
         textfield.y = 135;
         this.textfield = textfield;
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        RES.getResAsync("description_json", this.startAnimation, this);
         var Mask = new egret.Shape();
         Mask.graphics.beginFill(0x000000, 0.5);
         Mask.graphics.drawRect(0, 0, stageW, 600);
@@ -364,7 +341,88 @@ var Main = (function (_super) {
         label.textColor = 0xFFFFFF;
         label.fontFamily = "KaiTi";
         label.text = "姓名：王恒尊\n\n学号：14081202\n\n专业：数字媒体技术\n\n爱好：小说，音乐，游戏\n\n属性：宅\n\nQ Q：982049377\n\n微信：Monologue_whz\n\n目标：学好编程";
-        this.swapChildren(index, SecondPage);
+        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
+        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        RES.getResAsync("description_json", this.startAnimation, this);
+        // this.swapChildren(FirstPage,SecondPage);
+        //主页的滚动
+        index.touchEnabled = true;
+        index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            offsetY = e.stageY;
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, indexmovePage, _this);
+        }, this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END, function () {
+            _this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmovePage, _this);
+        }, this);
+        var indextween = egret.Tween.get(index);
+        var FirstPagetween = egret.Tween.get(FirstPage);
+        var SecondPagetween = egret.Tween.get(SecondPage);
+        function indexmovePage(e) {
+            if (e.stageY < offsetY) {
+                // indextween.to({ y: stageH * 2 }, 20, egret.Ease.sineIn);
+                // FirstPagetween.to({ y: 0 }, 20, egret.Ease.sineIn);
+                // SecondPagetween.to({ y: stageH }, 20, egret.Ease.sineIn);
+                FirstPage.y = 0;
+                index.y = stageH * 2;
+                SecondPage.y = stageH;
+            }
+            else
+                e.stageY > offsetY;
+            {
+                //indextween.to({y:stageH},20,egret.Ease.sineIn);
+                //FirstPagetween.to({y:stageH*2},20,egret.Ease.sineIn);
+                //SecondPagetween.to({y:0},20,egret.Ease.sineIn);
+                SecondPage.y = 0;
+                index.y = stageH;
+                FirstPage.y = stageH * 2;
+            }
+        }
+        //第一页的滚动
+        FirstPage.touchEnabled = true;
+        FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            offsetY = e.stageY;
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemovePage, _this);
+        }, this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END, function () {
+            _this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemovePage, _this);
+        }, this);
+        function FirstPagemovePage(e) {
+            if (e.stageY > offsetY) {
+                indextween.to({ y: 0 }, 20);
+                FirstPagetween.to({ y: stageH }, 20);
+                SecondPagetween.to({ y: stageH * 2 }, 20);
+            }
+            else
+                e.stageY < offsetY;
+            {
+                indextween.to({ y: stageH }, 20);
+                FirstPagetween.to({ y: stageH * 2 }, 20);
+                SecondPagetween.to({ y: 0 }, 20);
+            }
+        }
+        //第二页的滚动
+        SecondPage.touchEnabled = true;
+        SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            offsetY = e.stageY;
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemovepage, _this);
+        }, this);
+        index.removeEventListener(egret.TouchEvent.TOUCH_END, function () {
+            _this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemovepage, _this);
+        }, this);
+        function SecondPagemovepage(e) {
+            if (e.stageY > offsetY) {
+                indextween.to({ y: stageH * 2 }, 20);
+                FirstPagetween.to({ y: 0 }, 20);
+                SecondPagetween.to({ y: stageH }, 20);
+            }
+            else
+                e.stageY < offsetY;
+            {
+                indextween.to({ y: 0 }, 20);
+                FirstPagetween.to({ y: stageH }, 20);
+                SecondPagetween.to({ y: stageH * 2 }, 20);
+            }
+        }
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
