@@ -97,73 +97,71 @@ var Main = (function (_super) {
         }
     };
     /**
-     * 创建主页
+     * 创建游戏场景
      * Create a game scene
      */
-    p.creatindex = function () {
-        var _this = this;
+    p.createGameScene = function () {
+        /**
+         * 创建主页
+         * Create a game scene
+         */
+        var index = new egret.DisplayObjectContainer;
+        //  index.x=stageW;
+        index.width = stageW;
+        index.height = stageH;
+        this.addChild(index);
         var sky = this.createBitmapByName("earth_jpg");
-        this.addChild(sky);
+        index.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        /**
         //加入换页
-        ///问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        sky.touchEnabled = true;
-        var offsetY = 0;
-        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            _this.addChild(sky);
-            offsetY = e.stageY - sky.x;
-            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, onmove, _this);
-        }, this);
-        sky.addEventListener(egret.TouchEvent.TOUCH_END, function () {
-            _this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onmove, _this);
-        }, this);
-        function onmove() {
-            if (offsetY > 0)
-                this.creatFirstPage();
-            else
-                offsetY < 0;
-            this.creatSecondPage();
-            this.creatSecondPage();
-        }
-    };
-    /**
-       * 创建第一页面
-       * Create a game scene
-       */
-    p.creatFirstPage = function () {
-        var _this = this;
+        //问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        sky.touchEnabled=true;
+        var offsetY=0
+        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+            this.addChild(sky);
+            offsetY=e.stageY-sky.x;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this)
+        },this);
+
+        sky.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this);
+        },this);
+
+        function onmove(){
+                if(offsetY>0)
+                    this.creatFirstPage();
+                else offsetY<0
+                    this.creatSecondPage();       }
+        */
+        /**
+         *
+         *
+   * 创建第一页面
+   * Create a game scene
+   */
+        var FirstPage = new egret.DisplayObjectContainer;
+        // FirstPage.x=stageW*2;
+        FirstPage.width = stageW;
+        FirstPage.height = stageH;
+        this.addChild(FirstPage);
         var sky = this.createBitmapByName("dawn_jpg");
-        this.addChild(sky);
+        FirstPage.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
-        //加入换页
-        sky.touchEnabled = true;
-        offsetY = 0;
-        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            offsetY = e.stageY - sky.x;
-            _this.addChild(sky);
-            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
-                if (offsetY > 0)
-                    _this.creatSecondPage();
-                else
-                    offsetY < 0;
-                _this.creatindex();
-            }, _this);
-        }, this);
-        sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
         var topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
         topMask.graphics.drawRect(0, 0, stageW, 172);
         topMask.graphics.endFill();
         topMask.y = 33;
-        this.addChild(topMask);
+        FirstPage.addChild(topMask);
         var icon = this.createBitmapByName("head_jpg");
-        this.addChild(icon);
+        FirstPage.addChild(icon);
         icon.x = 20;
         icon.y = 45;
         icon.$setScaleX(0.4);
@@ -190,11 +188,6 @@ var Main = (function (_super) {
         icon.$touchEnabled = true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
         icon.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
-        //  icon.addEventListener(egret.TouchEvent.)
-        /* var tween=egret.Tween.get(icon);
-         tween.to({x:100},2000).to({y:200},2000).call(function (){
-             alert("helloworld");
-         },this).to({x:20,y:45},1000);*/
         function startMove(e) {
             //icon = e.currentTarget;
             offsetX = e.stageX - icon.x;
@@ -242,7 +235,7 @@ var Main = (function (_super) {
         line.graphics.endFill();
         line.x = 220;
         line.y = 61;
-        this.addChild(line);
+        FirstPage.addChild(line);
         var colorLabel = new egret.TextField();
         colorLabel.textColor = 0xffffff;
         colorLabel.width = stageW - 172;
@@ -251,9 +244,9 @@ var Main = (function (_super) {
         colorLabel.size = 24;
         colorLabel.x = 172;
         colorLabel.y = 80;
-        this.addChild(colorLabel);
+        FirstPage.addChild(colorLabel);
         var textfield = new egret.TextField();
-        this.addChild(textfield);
+        FirstPage.addChild(textfield);
         textfield.alpha = 0;
         textfield.width = stageW - 172;
         textfield.textAlign = egret.HorizontalAlign.CENTER;
@@ -266,7 +259,7 @@ var Main = (function (_super) {
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this);
         var label = new egret.TextField();
-        this.addChild(label);
+        FirstPage.addChild(label);
         label.x = 48;
         label.y = 240;
         label.width = 800;
@@ -277,44 +270,46 @@ var Main = (function (_super) {
         label.italic = true;
         label.fontFamily = "Microsoft YaHei";
         label.text = "个\n\n\n          人\n\n\n                    简\n\n\n                              历";
-    };
-    /**
-         * 创建第二页面
-         * Create a game scene
-         */
-    p.creatSecondPage = function () {
-        var _this = this;
+        /**
+             * 创建第二页面
+             * Create a game scene
+             */
+        var SecondPage = new egret.DisplayObjectContainer;
+        //  SecondPage.x=stageW*3;
+        SecondPage.width = stageW;
+        SecondPage.height = stageH;
+        this.addChild(SecondPage);
         var sky = this.createBitmapByName("stara_jpg");
-        this.addChild(sky);
+        SecondPage.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
-        //加入换页
-        sky.touchEnabled = true;
-        offsetY = 0;
-        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            offsetY = e.stageY - sky.x;
-            _this.addChild(sky);
-            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
-                //this.creatFirstPage();
-                //this.creatindex();
-                if (offsetY > 0)
-                    _this.creatindex();
-                else
-                    offsetY < 0;
-                _this.creatFirstPage();
-            }, _this);
-        }, this);
-        sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
+        /*//加入换页
+                sky.touchEnabled=true;
+                offsetY=0;
+                sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
+                    offsetY=e.stageY-sky.x;
+                    this.addChild(sky);
+                    this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
+                        //this.creatFirstPage();
+                        //this.creatindex();
+                        if(offsetY>0)
+                            this.creatindex();
+                        else offsetY<0
+                            this.creatFirstPage();
+                    },this)
+                },this);
+                sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
+         */
         var topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
         topMask.graphics.drawRect(0, 0, stageW, 172);
         topMask.graphics.endFill();
         topMask.y = 33;
-        this.addChild(topMask);
+        SecondPage.addChild(topMask);
         var icon = this.createBitmapByName("eye_jpg");
-        this.addChild(icon);
+        SecondPage.addChild(icon);
         icon.x = 20;
         icon.y = 45;
         icon.$setScaleX(0.45);
@@ -324,19 +319,6 @@ var Main = (function (_super) {
         icon.$touchEnabled = true;
         icon.addEventListener(egret.TouchEvent.TOUCH_BEGIN, startMove, this);
         icon.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
-        function startMove(e) {
-            offsetX = e.stageX - icon.x;
-            offsetY = e.stageY - icon.x;
-            this.addChild(icon);
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
-        }
-        function endMove() {
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onMove, this);
-        }
-        function onMove(e) {
-            icon.x = e.stageX - offsetX;
-            icon.y = e.stageY - offsetY;
-        }
         var line = new egret.Shape();
         line.graphics.lineStyle(2, 0xffffff);
         line.graphics.moveTo(0, 0);
@@ -344,7 +326,7 @@ var Main = (function (_super) {
         line.graphics.endFill();
         line.x = 220;
         line.y = 61;
-        this.addChild(line);
+        SecondPage.addChild(line);
         var colorLabel = new egret.TextField();
         colorLabel.textColor = 0xffffff;
         colorLabel.width = stageW - 172;
@@ -353,9 +335,9 @@ var Main = (function (_super) {
         colorLabel.size = 24;
         colorLabel.x = 172;
         colorLabel.y = 80;
-        this.addChild(colorLabel);
+        SecondPage.addChild(colorLabel);
         var textfield = new egret.TextField();
-        this.addChild(textfield);
+        SecondPage.addChild(textfield);
         textfield.alpha = 0;
         textfield.width = stageW - 172;
         textfield.textAlign = egret.HorizontalAlign.CENTER;
@@ -372,9 +354,9 @@ var Main = (function (_super) {
         Mask.graphics.drawRect(0, 0, stageW, 600);
         Mask.graphics.endFill();
         Mask.y = 230;
-        this.addChild(Mask);
+        SecondPage.addChild(Mask);
         var label = new egret.TextField();
-        this.addChild(label);
+        SecondPage.addChild(label);
         label.x = 48;
         label.y = 300;
         label.width = 500;
@@ -382,13 +364,7 @@ var Main = (function (_super) {
         label.textColor = 0xFFFFFF;
         label.fontFamily = "KaiTi";
         label.text = "姓名：王恒尊\n\n学号：14081202\n\n专业：数字媒体技术\n\n爱好：小说，音乐，游戏\n\n属性：宅\n\nQ Q：982049377\n\n微信：Monologue_whz\n\n目标：学好编程";
-    };
-    /**
-     * 创建游戏场景
-     * Create a game scene
-     */
-    p.createGameScene = function () {
-        this.creatindex();
+        this.swapChildren(index, SecondPage);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
