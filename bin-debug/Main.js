@@ -346,6 +346,7 @@ var Main = (function (_super) {
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this);
         // this.swapChildren(FirstPage,SecondPage);
+        //主页的滚动
         index.touchEnabled = true;
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, indexmouseDown, index);
         index.addEventListener(egret.TouchEvent.TOUCH_END, indexmouseUp, index);
@@ -366,6 +367,50 @@ var Main = (function (_super) {
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
+        }
+        //第一页的滚动
+        FirstPage.touchEnabled = true;
+        FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, FirstPagemouseDown, FirstPage);
+        FirstPage.addEventListener(egret.TouchEvent.TOUCH_END, FirstPagemouseUp, FirstPage);
+        var _distance = new egret.Point();
+        function FirstPagemouseDown(evt) {
+            console.log("Mouse Down.");
+            this._touchStatus = true;
+            _distance.y = evt.stageY - FirstPage.y;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
+        }
+        function FirstPagemouseMove(evt) {
+            if (this._touchStatus) {
+                console.log("moving now ! Mouse: [X:" + evt.stageX + ",Y:" + evt.stageY + "]");
+                FirstPage.y = evt.stageY - _distance.y;
+            }
+        }
+        function FirstPagemouseUp(evt) {
+            console.log("Mouse Up.");
+            this._touchStatus = false;
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
+        }
+        //第二页的滚动
+        SecondPage.touchEnabled = true;
+        SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, SecondPagemouseDown, SecondPage);
+        SecondPage.addEventListener(egret.TouchEvent.TOUCH_END, SecondPagemouseUp, SecondPage);
+        var _distance = new egret.Point();
+        function SecondPagemouseDown(evt) {
+            console.log("Mouse Down.");
+            this._touchStatus = true;
+            _distance.y = evt.stageY - SecondPage.y;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemouseMove, this);
+        }
+        function SecondPagemouseMove(evt) {
+            if (this._touchStatus) {
+                console.log("moving now ! Mouse: [X:" + evt.stageX + ",Y:" + evt.stageY + "]");
+                SecondPage.y = evt.stageY - _distance.y;
+            }
+        }
+        function SecondPagemouseUp(evt) {
+            console.log("Mouse Up.");
+            this._touchStatus = false;
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemouseMove, this);
         }
         //主页的滚动
         /*  index.touchEnabled=true;
