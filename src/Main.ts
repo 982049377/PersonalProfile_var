@@ -287,6 +287,19 @@ function onMove(e:egret.TouchEvent){
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this)
 
+         var label:egret.TextField = new egret.TextField();
+        this.addChild( label );
+        label.x=48;
+        label.y=240;
+        label.width = 800;
+        label.height = 800;
+        label.textColor = 0xFFFFFF;
+        label.size=54;
+        label.bold = true;
+        label.italic = true;
+        label.fontFamily="Microsoft YaHei";
+        label.text = "个\n\n\n          人\n\n\n                    简\n\n\n                              历";
+
 }
 
 
@@ -322,13 +335,12 @@ function onMove(e:egret.TouchEvent){
         topMask.y = 33;
         this.addChild(topMask);
 
-        var icon:egret.Bitmap = this.createBitmapByName("head_jpg");
+        var icon:egret.Bitmap = this.createBitmapByName("eye_jpg");
         this.addChild(icon);
         icon.x = 20;
         icon.y = 45;
-        icon.$setScaleX(0.4);
-        icon.$setScaleY(0.4);
-        icon.$alpha=1;
+        icon.$setScaleX(0.45);
+        icon.$setScaleY(0.45);
 
         var offsetX=0;
         var offsetY=0;
@@ -386,6 +398,24 @@ function onMove(e:egret.TouchEvent){
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this)
+
+        var Mask = new egret.Shape();
+        Mask.graphics.beginFill(0x000000, 0.5);
+        Mask.graphics.drawRect(0, 0, stageW, 600);
+        Mask.graphics.endFill();
+        Mask.y = 230;
+        this.addChild(Mask);
+
+        var label:egret.TextField = new egret.TextField();
+        this.addChild( label );
+        label.x=48;
+        label.y=300;
+        label.width = 500;
+        label.height = 500;
+        label.textColor = 0xFFFFFF;
+        label.fontFamily="KaiTi";
+        label.text = "姓名：王恒尊\n\n学号：14081202\n\n专业：数字媒体技术\n\n爱好：小说，音乐，游戏\n\n属性：宅\n\nQ Q：982049377\n\n微信：Monologue_whz\n\n目标：学好编程";
+
     }
 
     /**
