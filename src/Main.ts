@@ -123,16 +123,24 @@ private creatindex():void{
         sky.height = stageH;
 //加入换页
 ///问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-       /* 
         sky.touchEnabled=true;
+        var offsetY=0
         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
             this.addChild(sky);
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
-                this.creatSecondPage();
-            },this)
+            offsetY=e.stageY-sky.x;
+            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this)
         },this);
-        sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
-    */
+        sky.addEventListener(egret.TouchEvent.TOUCH_END,()=>{
+            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,onmove,this);
+        },this);
+
+        function onmove(){
+                if(offsetY>0)
+                    this.creatFirstPage();
+                else offsetY<0
+                    this.creatSecondPage();
+                this.creatSecondPage();
+        }
 }
 
   /**
@@ -148,12 +156,15 @@ private creatFirstPage():void{
         sky.height = stageH;
 //加入换页
         sky.touchEnabled=true;
+        offsetY=0;
         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            offsetX=e.stageX-sky.x;
             offsetY=e.stageY-sky.x;
             this.addChild(sky);
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
-                this.creatSecondPage();
+                if(offsetY>0)
+                    this.creatSecondPage();
+                else offsetY<0
+                    this.creatindex();
             },this)
         },this);
         sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
@@ -317,13 +328,17 @@ function onMove(e:egret.TouchEvent){
         sky.height = stageH;
 //加入换页
         sky.touchEnabled=true;
+        offsetY=0;
         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            offsetX=e.stageX-sky.x;
             offsetY=e.stageY-sky.x;
             this.addChild(sky);
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
-                this.creatFirstPage();
+                //this.creatFirstPage();
                 //this.creatindex();
+                if(offsetY>0)
+                    this.creatindex();
+                else offsetY<0
+                    this.creatFirstPage();
             },this)
         },this);
         sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
@@ -424,7 +439,7 @@ function onMove(e:egret.TouchEvent){
      */
 
     private createGameScene():void {
-        this.creatFirstPage();
+        this.creatindex();
     }
 
     /**

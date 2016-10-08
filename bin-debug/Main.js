@@ -101,6 +101,7 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.creatindex = function () {
+        var _this = this;
         var sky = this.createBitmapByName("earth_jpg");
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
@@ -109,16 +110,24 @@ var Main = (function (_super) {
         sky.height = stageH;
         //加入换页
         ///问题i000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        /*
-         sky.touchEnabled=true;
-         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-             this.addChild(sky);
-             this.addEventListener(egret.TouchEvent.TOUCH_MOVE,()=>{
-                 this.creatSecondPage();
-             },this)
-         },this);
-         sky.addEventListener(egret.TouchEvent.TOUCH_END,endMove,this);
-     */
+        sky.touchEnabled = true;
+        var offsetY = 0;
+        sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            _this.addChild(sky);
+            offsetY = e.stageY - sky.x;
+            _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, onmove, _this);
+        }, this);
+        sky.addEventListener(egret.TouchEvent.TOUCH_END, function () {
+            _this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onmove, _this);
+        }, this);
+        function onmove() {
+            if (offsetY > 0)
+                this.creatFirstPage();
+            else
+                offsetY < 0;
+            this.creatSecondPage();
+            this.creatSecondPage();
+        }
     };
     /**
        * 创建第一页面
@@ -134,12 +143,16 @@ var Main = (function (_super) {
         sky.height = stageH;
         //加入换页
         sky.touchEnabled = true;
+        offsetY = 0;
         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            offsetX = e.stageX - sky.x;
             offsetY = e.stageY - sky.x;
             _this.addChild(sky);
             _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
-                _this.creatSecondPage();
+                if (offsetY > 0)
+                    _this.creatSecondPage();
+                else
+                    offsetY < 0;
+                _this.creatindex();
             }, _this);
         }, this);
         sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
@@ -279,13 +292,18 @@ var Main = (function (_super) {
         sky.height = stageH;
         //加入换页
         sky.touchEnabled = true;
+        offsetY = 0;
         sky.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            offsetX = e.stageX - sky.x;
             offsetY = e.stageY - sky.x;
             _this.addChild(sky);
             _this.addEventListener(egret.TouchEvent.TOUCH_MOVE, function () {
-                _this.creatFirstPage();
+                //this.creatFirstPage();
                 //this.creatindex();
+                if (offsetY > 0)
+                    _this.creatindex();
+                else
+                    offsetY < 0;
+                _this.creatFirstPage();
             }, _this);
         }, this);
         sky.addEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
@@ -370,7 +388,7 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.createGameScene = function () {
-        this.creatFirstPage();
+        this.creatindex();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
