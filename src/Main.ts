@@ -33,6 +33,8 @@ class Main extends egret.DisplayObjectContainer {
      * Process interface loading
      */
     private loadingView:LoadingUI;
+    private _touchStatus:boolean = false;          //当前触摸状态，按下时，值为true
+    //private _distance:egret.Point = new egret.Point(); //鼠标点击时，鼠标全局坐标与_bird的位置差
 
     public constructor() {
         super();
@@ -397,9 +399,37 @@ function onMove(e:egret.TouchEvent){
         RES.getResAsync("description_json", this.startAnimation, this)
 
        // this.swapChildren(FirstPage,SecondPage);
+        index.touchEnabled=true;
+        index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, indexmouseDown, index);
+        index.addEventListener(egret.TouchEvent.TOUCH_END, indexmouseUp, index);
+        var _distance:egret.Point = new egret.Point();
+    function indexmouseDown(evt:egret.TouchEvent)
+    {
+        console.log("Mouse Down.");
+        this._touchStatus = true;
+        _distance.y = evt.stageY - index.y;
+        this.addEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
+    }
+
+    function indexmouseMove(evt:egret.TouchEvent)
+    {
+        if( this._touchStatus )
+        {
+            console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
+            index.y = evt.stageY - _distance.y;
+        }
+    }
+
+    function indexmouseUp(evt:egret.TouchEvent)
+    {
+        console.log("Mouse Up.");
+        this._touchStatus = false;
+        this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
+    }
+
 
 //主页的滚动
-        index.touchEnabled=true;
+      /*  index.touchEnabled=true;
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
             offsetY=e.stageY;
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE,indexmovePage,this);
@@ -413,24 +443,24 @@ function onMove(e:egret.TouchEvent){
         var SecondPagetween = egret.Tween.get(SecondPage);
         function indexmovePage(e:egret.TouchEvent):void{
             if(e.stageY>offsetY){
-                indextween.to({y:stageH},20);
-                FirstPagetween.to({y:stageH*2},20);
-                SecondPagetween.to({y:0},20);
+               // indextween.to({y:stageH},20);
+               // FirstPagetween.to({y:stageH*2},20);
+               // SecondPagetween.to({y:0},20);
 
-                //SecondPage.y=0;
-                //index.y=stageH;
-                //FirstPage.y=stageH*2;
+                SecondPage.y=0;
+                index.y=stageH;
+                FirstPage.y=stageH*2;
                
             }
             else if(e.stageY<offsetY)
             {
-                indextween.to({ y: stageH * 2 }, 20);
-                FirstPagetween.to({ y: 0 }, 20);
-                SecondPagetween.to({ y: stageH }, 20);
+               // indextween.to({ y: stageH * 2 }, 20);
+               // FirstPagetween.to({ y: 0 }, 20);
+               // SecondPagetween.to({ y: stageH }, 20);
 
-                //FirstPage.y=0;
-                //index.y=stageH*2;
-                //SecondPage.y=stageH;
+                FirstPage.y=0;
+                index.y=stageH*2;
+                SecondPage.y=stageH;
             }
         }
 
@@ -447,7 +477,7 @@ function onMove(e:egret.TouchEvent){
         
         
         function FirstPagemovePage(e:egret.TouchEvent):void{
-            if(e.stageY>offsetY){
+            if(e.stageY<offsetY){
                 indextween.to({y:0},20);
                 FirstPagetween.to({y:stageH},20);
                 SecondPagetween.to({y:stageH*2},20);
@@ -456,7 +486,7 @@ function onMove(e:egret.TouchEvent){
                 //SecondPage.y=stageH*2;
                 //FirstPage.y=stageH;
             }
-            else if(e.stageY<offsetY)
+            else if(e.stageY>offsetY)
             {
                 indextween.to({y:stageH},20);
                 FirstPagetween.to({y:stageH*2},20);
@@ -479,7 +509,7 @@ function onMove(e:egret.TouchEvent){
         
         
         function SecondPagemovepage(e:egret.TouchEvent):void{
-            if(e.stageY>offsetY){
+            if(e.stageY<offsetY){
                 indextween.to({y:stageH*2},20);
                 FirstPagetween.to({y:0},20);
                 SecondPagetween.to({y:stageH},20);
@@ -488,7 +518,7 @@ function onMove(e:egret.TouchEvent){
                // SecondPage.y=stageH;
                // FirstPage.y=0;
             }
-            else if(e.stageY<offsetY)
+            else if(e.stageY>offsetY)
             {
                 indextween.to({y:0},20);
                 FirstPagetween.to({y:stageH},20);
@@ -498,7 +528,7 @@ function onMove(e:egret.TouchEvent){
                // FirstPage.y=stageH;
                // SecondPage.y=stageH*2;
             }
-        }
+        }*/
 }
 
     /**
