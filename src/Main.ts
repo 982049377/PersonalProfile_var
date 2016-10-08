@@ -399,8 +399,18 @@ function onMove(e:egret.TouchEvent){
         RES.getResAsync("description_json", this.startAnimation, this)
 
        // this.swapChildren(FirstPage,SecondPage);
-       //主页的滚动
+        var _vcLocation = [
+            new egret.Point( 0, 0 )
+            ,new egret.Point( 0, this.stage.stageHeight )
+            ,new egret.Point( 0, this.stage.stageHeight *2 )
+        ];
+        var indextween = egret.Tween.get(index);
+        var FirstPagetween = egret.Tween.get(FirstPage);
+        var SecondPagetween = egret.Tween.get(SecondPage);
         index.touchEnabled=true;
+        FirstPage.touchEnabled=true;
+        SecondPage.touchEnabled=true;
+       //主页的滚动
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, indexmouseDown, index);
         index.addEventListener(egret.TouchEvent.TOUCH_END, indexmouseUp, index);
         var _distance:egret.Point = new egret.Point();
@@ -418,6 +428,9 @@ function onMove(e:egret.TouchEvent){
             {
                 console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
                 index.y = evt.stageY - _distance.y;
+                //FirstPagetween.to({y: evt.stageY - _distance.y},10, egret.Ease.sineIn );
+               // FirstPage.y=stageH-index.y;
+               // SecondPage.y=stageH*2-index.y;
             }
         }
 
@@ -428,8 +441,7 @@ function onMove(e:egret.TouchEvent){
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
         }
 
-//第一页的滚动
-        FirstPage.touchEnabled=true;
+//第一页的滚动   
         FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, FirstPagemouseDown, FirstPage);
         FirstPage.addEventListener(egret.TouchEvent.TOUCH_END, FirstPagemouseUp, FirstPage);
         var _distance:egret.Point = new egret.Point();
@@ -457,7 +469,6 @@ function onMove(e:egret.TouchEvent){
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
         }
     //第二页的滚动
-        SecondPage.touchEnabled=true;
         SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,SecondPagemouseDown,SecondPage);
         SecondPage.addEventListener(egret.TouchEvent.TOUCH_END, SecondPagemouseUp, SecondPage);
         var _distance:egret.Point = new egret.Point();
