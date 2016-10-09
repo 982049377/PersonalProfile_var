@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpg,stara_jpg,dawn_jpg,earth_jpg,head_jpg,logo_jpg,eye_jpg,eye2_jpg",
+			"keys": "bgg_jpg,egret_icon_png,description_json,star_jpg,stara_jpg,dawn_jpg,earth_jpg,head_jpg,logo_jpg,eye_jpg,eye2_jpg,Fade_mp3,music_jpg",
 			"name": "preload"
 		}
 	],
@@ -57,9 +57,19 @@
 			"name": "eye_jpg"
 		},
 		{
-			"name": "eye2_jpg",
+			"url": "assets/eye.jpg",
 			"type": "image",
-			"url": "assets/eye.jpg"
+			"name": "eye2_jpg"
+		},
+		{
+			"url": "assets/Fade.mp3",
+			"type": "sound",
+			"name": "Fade_mp3"
+		},
+		{
+			"url": "assets/music.jpg",
+			"type": "image",
+			"name": "music_jpg"
 		}
 	]
 }

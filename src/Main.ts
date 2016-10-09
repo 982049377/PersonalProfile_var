@@ -35,7 +35,7 @@ class Main extends egret.DisplayObjectContainer {
     private loadingView:LoadingUI;
     private _touchStatus:boolean = false;          //当前触摸状态，按下时，值为true
     //private _distance:egret.Point = new egret.Point(); //鼠标点击时，鼠标全局坐标与_bird的位置差
-    private Pages:Array<egret.DisplayObjectContainer>;
+    //private Pages:Array<egret.DisplayObjectContainer>;
     
 
     public constructor() {
@@ -121,12 +121,14 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene():void {
-         this.Pages=[index,FirstPage,SecondPage];
-         var num=3;
+        // this.Pages=[index,FirstPage,SecondPage];
+        // var num=3;
+        
     /**
      * 创建主页
      * Create a game scene
      */
+        
         var index=new egret.DisplayObjectContainer;
         index.y=0;
         index.width=stageW;
@@ -140,6 +142,12 @@ class Main extends egret.DisplayObjectContainer {
         sky.width = stageW;
         sky.height = stageH;
 
+        var bgmusic=new Music();
+        bgmusic.x=150;
+        bgmusic.y=900;
+        bgmusic.scaleX=0.4;
+        bgmusic.scaleY=0.4;
+        index.addChild(bgmusic);
           /**
            * 
            * 
@@ -379,7 +387,7 @@ function onMove(e:egret.TouchEvent){
         textfield.y = 135;
         this.textfield = textfield;
 
-
+        this
         var Mask = new egret.Shape();
         Mask.graphics.beginFill(0x000000, 0.5);
         Mask.graphics.drawRect(0, 0, stageW, 600);

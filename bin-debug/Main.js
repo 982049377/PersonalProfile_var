@@ -28,6 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 var Main = (function (_super) {
     __extends(Main, _super);
+    //private _distance:egret.Point = new egret.Point(); //鼠标点击时，鼠标全局坐标与_bird的位置差
+    //private Pages:Array<egret.DisplayObjectContainer>;
     function Main() {
         _super.call(this);
         this._touchStatus = false; //当前触摸状态，按下时，值为true
@@ -102,8 +104,8 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.createGameScene = function () {
-        this.Pages = [index, FirstPage, SecondPage];
-        var num = 3;
+        // this.Pages=[index,FirstPage,SecondPage];
+        // var num=3;
         /**
          * 创建主页
          * Create a game scene
@@ -119,6 +121,12 @@ var Main = (function (_super) {
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        var bgmusic = new Music();
+        bgmusic.x = 150;
+        bgmusic.y = 900;
+        bgmusic.scaleX = 0.4;
+        bgmusic.scaleY = 0.4;
+        index.addChild(bgmusic);
         /**
          *
          *
@@ -328,6 +336,7 @@ var Main = (function (_super) {
         textfield.x = 172;
         textfield.y = 135;
         this.textfield = textfield;
+        this;
         var Mask = new egret.Shape();
         Mask.graphics.beginFill(0x000000, 0.5);
         Mask.graphics.drawRect(0, 0, stageW, 600);
