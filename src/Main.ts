@@ -433,50 +433,52 @@ function onMove(e:egret.TouchEvent){
         }
 
       function move(evt:egret.TouchEvent){
-                index.y = evt.stageY - index_distance.y;
-                //FirstPagetween.to({y: evt.stageY - _distance.y},10, egret.Ease.sineIn );
-                FirstPage.y=evt.stageY-FirstPage_distance.y;
-                SecondPage.y=evt.stageY-SecondPage_distance.y;
-        }
-          function loacl(it:egret.DisplayObjectContainer){
-               // indextween.to( {y:loaclindex},20);
-               // FirstPagetween.to({y:loaclFirstPage},20);
-                //SecondPagetween.to({y:loaclSecondPage},20);
-                for(var i=0;i<num;i++)
+            index.y = evt.stageY - index_distance.y;
+            //FirstPagetween.to({y: evt.stageY - _distance.y},10, egret.Ease.sineIn );
+            FirstPage.y=evt.stageY-FirstPage_distance.y;
+            SecondPage.y=evt.stageY-SecondPage_distance.y;
+      }
+      function loacl(it:egret.DisplayObjectContainer){
+            // indextween.to( {y:loaclindex},20);
+            // FirstPagetween.to({y:loaclFirstPage},20);
+            //SecondPagetween.to({y:loaclSecondPage},20);
+           //    console.log(this.parent);
+            for(var i=0;i<num;i++)
+            {
+                var name=this.parent.Pages[i].name;
+             
+                if(name==it.name)
                 {
-                    var name=this.Pages[i].name;
-                    if(name==it.name)
-                    {
-                        break;
-                    }
+                    break;
                 }
+            }
 
-                 if (it.y>-400)
-                {
-                    //move(evt);
-                    //loacl();
-                    /* var indexstopy=evt.stageY - index_distance.y;
-                     var FirstPagestopy=evt.stageY-FirstPage_distance.y;
-                     var SecondPagesyopy=evt.stageY-SecondPage_distance.y;
-                     egret.Tween.get(index).to({x:0,y:indexstopy},100, egret.Ease.sineIn )
-                        .wait(300).to({x:0,y:0},200, egret.Ease.sineIn );
-                     egret.Tween.get(FirstPage).to({x:0,y:FirstPagestopy},100, egret.Ease.sineIn )
-                        .wait(300).to({x:0,y:1136},200, egret.Ease.sineIn );
-                     egret.Tween.get(SecondPage).to({x:0,y:SecondPagesyopy},100, egret.Ease.sineIn )
-                        .wait(300).to({x:0,y:1136*2},200, egret.Ease.sineIn );*/
-                     egret.Tween.get(this.Pages[i]).to({x:0,y:0},200, egret.Ease.sineIn );
-                     egret.Tween.get(this.Pages[(i+1)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
-                     egret.Tween.get(this.Pages[(i+2)%num]).to({x:0,y:1136*2},200, egret.Ease.sineIn );
-                    // console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-                }
-                else
-                     if(index.y<-400){
-                     egret.Tween.get(this.Pages[i]).to({x:0,y:-1136},200, egret.Ease.sineIn );
-                     egret.Tween.get(this.Pages[(i+1)%num]).to({x:0,y:0},200, egret.Ease.sineIn );
-                     egret.Tween.get(this.Pages[(i+2)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
-                    // console.log("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-                     
-                }
+                if (it.y>-400)
+            {
+                //move(evt);
+                //loacl();
+                /* var indexstopy=evt.stageY - index_distance.y;
+                    var FirstPagestopy=evt.stageY-FirstPage_distance.y;
+                    var SecondPagesyopy=evt.stageY-SecondPage_distance.y;
+                    egret.Tween.get(index).to({x:0,y:indexstopy},100, egret.Ease.sineIn )
+                    .wait(300).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(FirstPage).to({x:0,y:FirstPagestopy},100, egret.Ease.sineIn )
+                    .wait(300).to({x:0,y:1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(SecondPage).to({x:0,y:SecondPagesyopy},100, egret.Ease.sineIn )
+                    .wait(300).to({x:0,y:1136*2},200, egret.Ease.sineIn );*/
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136*2},200, egret.Ease.sineIn );
+                // console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            }
+            else
+                    if(index.y<-400){
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:-1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                // console.log("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+                    
+            }
         }
         
         function indexmouseMove(evt:egret.TouchEvent)
@@ -484,7 +486,8 @@ function onMove(e:egret.TouchEvent){
             if( this._touchStatus )
             {
                 console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
-                move(evt);    
+                move(evt);   
+               
             }
         }
 
@@ -493,7 +496,32 @@ function onMove(e:egret.TouchEvent){
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
-            loacl(index);
+            //loacl(index);
+            ((it:egret.DisplayObjectContainer)=>{
+            for(var i=0;i<num;i++)
+            {
+                var name=this.parent.Pages[i].name;
+             
+                if(name==it.name)
+                {
+                    break;
+                }
+            }
+                if (it.y>-400)
+            {
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136*2},200, egret.Ease.sineIn );
+                // console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            }
+            else
+                    if(index.y<-400){
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:-1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                // console.log("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");        
+                }
+            },index)
         }
 
 //第一页的滚动   
@@ -515,8 +543,7 @@ function onMove(e:egret.TouchEvent){
             if( this._touchStatus )
             {
                 console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
-                move(evt);
-               
+                move(evt);    
             }
         }
 
@@ -525,7 +552,32 @@ function onMove(e:egret.TouchEvent){
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
-            loacl(FirstPage);
+            //loacl(FirstPage);
+            ((it:egret.DisplayObjectContainer)=>{
+            for(var i=0;i<num;i++)
+            {
+                var name=this.parent.Pages[i].name;
+             
+                if(name==it.name)
+                {
+                    break;
+                }
+            }
+                if (it.y>-400)
+            {
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136*2},200, egret.Ease.sineIn );
+                // console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            }
+            else
+                    if(index.y<-400){
+                    egret.Tween.get(this.parent.Pages[i]).to({x:0,y:-1136},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+1)%num]).to({x:0,y:0},200, egret.Ease.sineIn );
+                    egret.Tween.get(this.parent.Pages[(i+2)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                // console.log("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");        
+                }
+            },FirstPage)
         }
     //第二页的滚动
         SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,SecondPagemouseDown,SecondPage);

@@ -381,8 +381,9 @@ var Main = (function (_super) {
             // indextween.to( {y:loaclindex},20);
             // FirstPagetween.to({y:loaclFirstPage},20);
             //SecondPagetween.to({y:loaclSecondPage},20);
+            //    console.log(this.parent);
             for (var i = 0; i < num; i++) {
-                var name = this.Pages[i].name;
+                var name = this.parent.Pages[i].name;
                 if (name == it.name) {
                     break;
                 }
@@ -391,22 +392,22 @@ var Main = (function (_super) {
                 //move(evt);
                 //loacl();
                 /* var indexstopy=evt.stageY - index_distance.y;
-                 var FirstPagestopy=evt.stageY-FirstPage_distance.y;
-                 var SecondPagesyopy=evt.stageY-SecondPage_distance.y;
-                 egret.Tween.get(index).to({x:0,y:indexstopy},100, egret.Ease.sineIn )
+                    var FirstPagestopy=evt.stageY-FirstPage_distance.y;
+                    var SecondPagesyopy=evt.stageY-SecondPage_distance.y;
+                    egret.Tween.get(index).to({x:0,y:indexstopy},100, egret.Ease.sineIn )
                     .wait(300).to({x:0,y:0},200, egret.Ease.sineIn );
-                 egret.Tween.get(FirstPage).to({x:0,y:FirstPagestopy},100, egret.Ease.sineIn )
+                    egret.Tween.get(FirstPage).to({x:0,y:FirstPagestopy},100, egret.Ease.sineIn )
                     .wait(300).to({x:0,y:1136},200, egret.Ease.sineIn );
-                 egret.Tween.get(SecondPage).to({x:0,y:SecondPagesyopy},100, egret.Ease.sineIn )
+                    egret.Tween.get(SecondPage).to({x:0,y:SecondPagesyopy},100, egret.Ease.sineIn )
                     .wait(300).to({x:0,y:1136*2},200, egret.Ease.sineIn );*/
-                egret.Tween.get(this.Pages[i]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
-                egret.Tween.get(this.Pages[(i + 1) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
-                egret.Tween.get(this.Pages[(i + 2) % num]).to({ x: 0, y: 1136 * 2 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[i]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 * 2 }, 200, egret.Ease.sineIn);
             }
             else if (index.y < -400) {
-                egret.Tween.get(this.Pages[i]).to({ x: 0, y: -1136 }, 200, egret.Ease.sineIn);
-                egret.Tween.get(this.Pages[(i + 1) % num]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
-                egret.Tween.get(this.Pages[(i + 2) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[i]).to({ x: 0, y: -1136 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                egret.Tween.get(this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
             }
         }
         function indexmouseMove(evt) {
@@ -416,10 +417,29 @@ var Main = (function (_super) {
             }
         }
         function indexmouseUp(evt) {
+            var _this = this;
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
-            loacl(index);
+            //loacl(index);
+            (function (it) {
+                for (var i = 0; i < num; i++) {
+                    var name = _this.parent.Pages[i].name;
+                    if (name == it.name) {
+                        break;
+                    }
+                }
+                if (it.y > -400) {
+                    egret.Tween.get(_this.parent.Pages[i]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 * 2 }, 200, egret.Ease.sineIn);
+                }
+                else if (index.y < -400) {
+                    egret.Tween.get(_this.parent.Pages[i]).to({ x: 0, y: -1136 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                }
+            }, index);
         }
         //第一页的滚动   
         FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, FirstPagemouseDown, FirstPage);
@@ -440,10 +460,29 @@ var Main = (function (_super) {
             }
         }
         function FirstPagemouseUp(evt) {
+            var _this = this;
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
-            loacl(FirstPage);
+            //loacl(FirstPage);
+            (function (it) {
+                for (var i = 0; i < num; i++) {
+                    var name = _this.parent.Pages[i].name;
+                    if (name == it.name) {
+                        break;
+                    }
+                }
+                if (it.y > -400) {
+                    egret.Tween.get(_this.parent.Pages[i]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 * 2 }, 200, egret.Ease.sineIn);
+                }
+                else if (index.y < -400) {
+                    egret.Tween.get(_this.parent.Pages[i]).to({ x: 0, y: -1136 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 1) % num]).to({ x: 0, y: 0 }, 200, egret.Ease.sineIn);
+                    egret.Tween.get(_this.parent.Pages[(i + 2) % num]).to({ x: 0, y: 1136 }, 200, egret.Ease.sineIn);
+                }
+            }, FirstPage);
         }
         //第二页的滚动
         SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, SecondPagemouseDown, SecondPage);
