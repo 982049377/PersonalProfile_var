@@ -35,6 +35,8 @@ class Main extends egret.DisplayObjectContainer {
     private loadingView:LoadingUI;
     private _touchStatus:boolean = false;          //当前触摸状态，按下时，值为true
     //private _distance:egret.Point = new egret.Point(); //鼠标点击时，鼠标全局坐标与_bird的位置差
+    private Pages:Array<egret.DisplayObjectContainer>;
+    
 
     public constructor() {
         super();
@@ -119,6 +121,8 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene():void {
+         this.Pages=[index,FirstPage,SecondPage];
+         var num=3;
     /**
      * 创建主页
      * Create a game scene
@@ -399,15 +403,10 @@ function onMove(e:egret.TouchEvent){
         RES.getResAsync("description_json", this.startAnimation, this)
 
        // this.swapChildren(FirstPage,SecondPage);
-        var _vcLocation = [
-            new egret.Point( 0, 0 )
-            ,new egret.Point( 0, this.stage.stageHeight )
-            ,new egret.Point( 0, this.stage.stageHeight *2 )
-        ];
         var indextween = egret.Tween.get(index);
         var FirstPagetween = egret.Tween.get(FirstPage);
         var SecondPagetween = egret.Tween.get(SecondPage);
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         index.touchEnabled=true;
         FirstPage.touchEnabled=true;
         SecondPage.touchEnabled=true;
@@ -419,11 +418,6 @@ function onMove(e:egret.TouchEvent){
         var loaclindex=index.y;
         var loaclFirstPage=FirstPage.y;
         var loaclSecondPage=SecondPage.y;
-        var _vcLocation:egret.Point [] = [
-            new egret.Point(0, index.y )
-            ,new egret.Point( 0,FirstPage.y )
-            ,new egret.Point( 0, SecondPage.y )
-        ]
         
        //主页的滚动
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, indexmouseDown, index);
@@ -444,27 +438,53 @@ function onMove(e:egret.TouchEvent){
                 FirstPage.y=evt.stageY-FirstPage_distance.y;
                 SecondPage.y=evt.stageY-SecondPage_distance.y;
         }
-     /*     function loacl(){
-                indextween.to( {y:loaclindex},20);
-                FirstPagetween.to({y:loaclFirstPage},20);
-                SecondPagetween.to({y:loaclSecondPage},20);
+          function loacl(it:egret.DisplayObjectContainer){
+               // indextween.to( {y:loaclindex},20);
+               // FirstPagetween.to({y:loaclFirstPage},20);
+                //SecondPagetween.to({y:loaclSecondPage},20);
+                for(var i=0;i<num;i++)
+                {
+                    var name=this.Pages[i].name;
+                    if(name==it.name)
+                    {
+                        break;
+                    }
+                }
+
+                 if (it.y>-400)
+                {
+                    //move(evt);
+                    //loacl();
+                    /* var indexstopy=evt.stageY - index_distance.y;
+                     var FirstPagestopy=evt.stageY-FirstPage_distance.y;
+                     var SecondPagesyopy=evt.stageY-SecondPage_distance.y;
+                     egret.Tween.get(index).to({x:0,y:indexstopy},100, egret.Ease.sineIn )
+                        .wait(300).to({x:0,y:0},200, egret.Ease.sineIn );
+                     egret.Tween.get(FirstPage).to({x:0,y:FirstPagestopy},100, egret.Ease.sineIn )
+                        .wait(300).to({x:0,y:1136},200, egret.Ease.sineIn );
+                     egret.Tween.get(SecondPage).to({x:0,y:SecondPagesyopy},100, egret.Ease.sineIn )
+                        .wait(300).to({x:0,y:1136*2},200, egret.Ease.sineIn );*/
+                     egret.Tween.get(this.Pages[i]).to({x:0,y:0},200, egret.Ease.sineIn );
+                     egret.Tween.get(this.Pages[(i+1)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                     egret.Tween.get(this.Pages[(i+2)%num]).to({x:0,y:1136*2},200, egret.Ease.sineIn );
+                    // console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+                }
+                else
+                     if(index.y<-400){
+                     egret.Tween.get(this.Pages[i]).to({x:0,y:-1136},200, egret.Ease.sineIn );
+                     egret.Tween.get(this.Pages[(i+1)%num]).to({x:0,y:0},200, egret.Ease.sineIn );
+                     egret.Tween.get(this.Pages[(i+2)%num]).to({x:0,y:1136},200, egret.Ease.sineIn );
+                    // console.log("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+                     
+                }
         }
-        */
+        
         function indexmouseMove(evt:egret.TouchEvent)
         {
             if( this._touchStatus )
             {
                 console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
-                var stop=index.y;
-                stop=stop/3;
-               // if (index_distance.y>stop)
-              //  {
-                    //move(evt);
-                    //loacl();
-                     egret.Tween.get(index).to({y:evt.stageY - index_distance.y},100).wait(100).call( ()=>{indextween.to({y:_vcLocation[0].y},200, egret.Ease.sineIn )});
-                     egret.Tween.get(FirstPage).to({y:evt.stageY-FirstPage_distance.y},100).wait(100).call( ()=>{FirstPagetween.to({y:_vcLocation[1].y},200, egret.Ease.sineIn )});
-                     egret.Tween.get(SecondPage).to({y:evt.stageY-SecondPage_distance.y},100).wait(100).call( ()=>{SecondPagetween.to({y:_vcLocation[2].y},200, egret.Ease.sineIn )});
-               // }
+                move(evt);    
             }
         }
 
@@ -473,6 +493,7 @@ function onMove(e:egret.TouchEvent){
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
+            loacl(index);
         }
 
 //第一页的滚动   
@@ -495,7 +516,7 @@ function onMove(e:egret.TouchEvent){
             {
                 console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
                 move(evt);
-              //  loacl();
+               
             }
         }
 
@@ -504,6 +525,7 @@ function onMove(e:egret.TouchEvent){
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
+            loacl(FirstPage);
         }
     //第二页的滚动
         SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,SecondPagemouseDown,SecondPage);
@@ -533,8 +555,8 @@ function onMove(e:egret.TouchEvent){
             console.log("Mouse Up.");
             this._touchStatus = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemouseMove, this);
+            loacl(SecondPage);
         }
-
   //主页的滚动
       /*  index.touchEnabled=true;
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
