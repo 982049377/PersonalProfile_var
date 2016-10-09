@@ -357,23 +357,27 @@ var Main = (function (_super) {
         index.touchEnabled = true;
         FirstPage.touchEnabled = true;
         SecondPage.touchEnabled = true;
+        var index_distance = new egret.Point();
+        var FirstPage_distance = new egret.Point();
+        var SecondPage_distance = new egret.Point();
         //主页的滚动
         index.addEventListener(egret.TouchEvent.TOUCH_BEGIN, indexmouseDown, index);
         index.addEventListener(egret.TouchEvent.TOUCH_END, indexmouseUp, index);
-        var _distance = new egret.Point();
         function indexmouseDown(evt) {
             console.log("Mouse Down.");
             this._touchStatus = true;
-            _distance.y = evt.stageY - index.y;
+            index_distance.y = evt.stageY - index.y;
+            FirstPage_distance.y = evt.stageY - FirstPage.y;
+            SecondPage_distance.y = evt.stageY - SecondPage.y;
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE, indexmouseMove, this);
         }
         function indexmouseMove(evt) {
             if (this._touchStatus) {
                 console.log("moving now ! Mouse: [X:" + evt.stageX + ",Y:" + evt.stageY + "]");
-                index.y = evt.stageY - _distance.y;
+                index.y = evt.stageY - index_distance.y;
                 //FirstPagetween.to({y: evt.stageY - _distance.y},10, egret.Ease.sineIn );
-                FirstPage.y = stageH - index.y;
-                SecondPage.y = stageH * 2 - index.y;
+                FirstPage.y = evt.stageY - FirstPage_distance.y;
+                SecondPage.y = evt.stageY - SecondPage_distance.y;
             }
         }
         function indexmouseUp(evt) {
@@ -388,13 +392,17 @@ var Main = (function (_super) {
         function FirstPagemouseDown(evt) {
             console.log("Mouse Down.");
             this._touchStatus = true;
-            _distance.y = evt.stageY - FirstPage.y;
+            index_distance.y = evt.stageY - index.y;
+            FirstPage_distance.y = evt.stageY - FirstPage.y;
+            SecondPage_distance.y = evt.stageY - SecondPage.y;
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE, FirstPagemouseMove, this);
         }
         function FirstPagemouseMove(evt) {
             if (this._touchStatus) {
                 console.log("moving now ! Mouse: [X:" + evt.stageX + ",Y:" + evt.stageY + "]");
-                FirstPage.y = evt.stageY - _distance.y;
+                index.y = evt.stageY - index_distance.y;
+                FirstPage.y = evt.stageY - FirstPage_distance.y;
+                SecondPage.y = evt.stageY - SecondPage_distance.y;
             }
         }
         function FirstPagemouseUp(evt) {
@@ -409,13 +417,17 @@ var Main = (function (_super) {
         function SecondPagemouseDown(evt) {
             console.log("Mouse Down.");
             this._touchStatus = true;
-            _distance.y = evt.stageY - SecondPage.y;
+            index_distance.y = evt.stageY - index.y;
+            FirstPage_distance.y = evt.stageY - FirstPage.y;
+            SecondPage_distance.y = evt.stageY - SecondPage.y;
             this.addEventListener(egret.TouchEvent.TOUCH_MOVE, SecondPagemouseMove, this);
         }
         function SecondPagemouseMove(evt) {
             if (this._touchStatus) {
                 console.log("moving now ! Mouse: [X:" + evt.stageX + ",Y:" + evt.stageY + "]");
-                SecondPage.y = evt.stageY - _distance.y;
+                index.y = evt.stageY - index_distance.y;
+                FirstPage.y = evt.stageY - FirstPage_distance.y;
+                SecondPage.y = evt.stageY - SecondPage_distance.y;
             }
         }
         function SecondPagemouseUp(evt) {
