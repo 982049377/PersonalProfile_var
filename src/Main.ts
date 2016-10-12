@@ -141,13 +141,75 @@ class Main extends egret.DisplayObjectContainer {
         var stageH:number = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
+        loadSound();
+        
+        var music:egret.Bitmap;
+        var _sound: egret.Sound;
+        var _channel: egret.SoundChannel;
+        var _pauseTime: number = 0;
 
-        var bgmusic=new Music();
-        bgmusic.x=150;
-        bgmusic.y=900;
-        bgmusic.scaleX=0.4;
-        bgmusic.scaleY=0.4;
-        index.addChild(bgmusic);
+   function loadSound(): void {
+        var sound: egret.Sound = new egret.Sound();
+        //sound 加载完成监听
+        this._sound =sound=RES.getRes("faded_mp3");
+        this._channel=sound.play(0,0);
+        
+        var Anim_point =0;//定义按钮模式
+
+        this.music= this.createBitmapByName("music_png");
+        this.music.x = this.music.width/2-5;
+        this.music.y = 150+this.music.height/2;
+        this.music.scaleX=0.4;
+        this.music.scaleY=0.4;
+        this.music.$alpha=0.8;
+        this.changeanchor(this.music);
+        this.music.touchEnabled = true;
+        //stop
+        this.music.addEventListener(egret.TouchEvent.TOUCH_TAP, changeAnim, this);
+       
+        var Sizetimer:egret.Timer = new egret.Timer(3000,0);
+        //注册事件侦听器
+        Sizetimer.addEventListener(egret.TimerEvent.TIMER,ChangeSizeByself,this);
+        Sizetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,()=>{ },this);
+        //开始计时
+      //  ChangeSizeByself();
+       egret.Tween.get(this.music).to({scaleX:0.3,scaleY:0.3},1000, egret.Ease.sineIn)
+                .wait(500).to({scaleX:0.7,scaleY:0.7},1000, egret.Ease.sineIn).wait(500);//进行第一次播放
+        Sizetimer.start();
+
+        var rotationtimer:egret.Timer = new egret.Timer(30,0);
+        //注册事件侦听器
+        rotationtimer.addEventListener(egret.TimerEvent.TIMER,()=>{this.music.rotation += 0.2;},this);
+        rotationtimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,()=>{ },this);
+        //开始计时
+        rotationtimer.start();
+
+      
+        this.addChild(this.music);
+
+           
+        function changeAnim(e: egret.TouchEvent): void {
+            Anim_point = (Anim_point + 1 ) % 2;
+            switch (Anim_point) {
+                case 0 : 
+                    this._channel=this._sound.play(this._pauseTime,0);
+                    break;
+                case 1 :
+                    this._pauseTime = this._channel.position; 
+                    this._channel.stop();
+                    this._channel = null;
+                    break;
+        } 
+        }
+        function  ChangeSizeByself():void{
+            //this.music=e;
+            egret.Tween.get(this.music).to({scaleX:0.3,scaleY:0.3},1000, egret.Ease.sineIn)
+                .wait(500).to({scaleX:0.7,scaleY:0.7},1000, egret.Ease.sineIn).wait(500);
+            //RotationByself(e);
+            //console.log("12315664654899498498");
+        }
+    
+
           /**
            * 
            * 
@@ -629,109 +691,8 @@ function onMove(e:egret.TouchEvent){
                 }
                 
         }
-  //主页的滚动
-      /*  index.touchEnabled=true;
-        index.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            offsetY=e.stageY;
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,indexmovePage,this);
-        },this);
-        index.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,indexmovePage,this);
-        },this);
-
-        var indextween = egret.Tween.get(index);
-        var FirstPagetween = egret.Tween.get(FirstPage);
-        var SecondPagetween = egret.Tween.get(SecondPage);
-        function indexmovePage(e:egret.TouchEvent):void{
-            if(e.stageY>offsetY){
-               // indextween.to({y:stageH},20);
-               // FirstPagetween.to({y:stageH*2},20);
-               // SecondPagetween.to({y:0},20);
-
-                SecondPage.y=0;
-                index.y=stageH;
-                FirstPage.y=stageH*2;
-               
-            }
-            else if(e.stageY<offsetY)
-            {
-               // indextween.to({ y: stageH * 2 }, 20);
-               // FirstPagetween.to({ y: 0 }, 20);
-               // SecondPagetween.to({ y: stageH }, 20);
-
-                FirstPage.y=0;
-                index.y=stageH*2;
-                SecondPage.y=stageH;
-            }
-        }
-
-//第一页的滚动
-        FirstPage.touchEnabled=true;
-        FirstPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            offsetY=e.stageY;
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,FirstPagemovePage,this);
-        },this);
-
-        FirstPage.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,FirstPagemovePage,this);
-        },this);
-        
-        
-        function FirstPagemovePage(e:egret.TouchEvent):void{
-            if(e.stageY<offsetY){
-                indextween.to({y:0},20);
-                FirstPagetween.to({y:stageH},20);
-                SecondPagetween.to({y:stageH*2},20);
-
-                //index.y=0;
-                //SecondPage.y=stageH*2;
-                //FirstPage.y=stageH;
-            }
-            else if(e.stageY>offsetY)
-            {
-                indextween.to({y:stageH},20);
-                FirstPagetween.to({y:stageH*2},20);
-                SecondPagetween.to({y:0},20);
-
-               // SecondPage.y=0;
-                //index.y=stageH;
-                //FirstPage.y=stageH*2;
-            }
-        }
-        //第二页的滚动
-        SecondPage.touchEnabled=true;
-        SecondPage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,(e:egret.TouchEvent)=>{
-            offsetY=e.stageY;
-            this.addEventListener(egret.TouchEvent.TOUCH_MOVE,SecondPagemovepage,this)
-        },this);
-        SecondPage.removeEventListener(egret.TouchEvent.TOUCH_END,()=>{
-            this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,SecondPagemovepage,this)
-        },this);
-        
-        
-        function SecondPagemovepage(e:egret.TouchEvent):void{
-            if(e.stageY<offsetY){
-                indextween.to({y:stageH*2},20);
-                FirstPagetween.to({y:0},20);
-                SecondPagetween.to({y:stageH},20);
-
-               // index.y=stageH*2;
-               // SecondPage.y=stageH;
-               // FirstPage.y=0;
-            }
-            else if(e.stageY>offsetY)
-            {
-                indextween.to({y:0},20);
-                FirstPagetween.to({y:stageH},20);
-                SecondPagetween.to({y:stageH*2},20);
-
-               // index.y=0;
-               // FirstPage.y=stageH;
-               // SecondPage.y=stageH*2;
-            }
-        }*/
-}
-
+    }
+    }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
