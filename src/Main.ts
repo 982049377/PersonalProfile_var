@@ -115,40 +115,11 @@ class Main extends egret.DisplayObjectContainer {
 
     private textfield:egret.TextField;
    
-
-    /**
-     * 创建游戏场景
-     * Create a game scene
-     */
-    private createGameScene():void {
-        // this.Pages=[index,FirstPage,SecondPage];
-        // var num=3;
-        
-    /**
-     * 创建主页
-     * Create a game scene
-     */
-        
-        var index=new egret.DisplayObjectContainer;
-        index.y=0;
-        index.width=stageW;
-        index.height=stageH;
-        this.addChild(index);
-
-        var sky:egret.Bitmap = this.createBitmapByName("earth_jpg");
-        index.addChild(sky);
-        var stageW:number = this.stage.stageWidth;
-        var stageH:number = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
-        loadSound();
-        
-        var music:egret.Bitmap;
-        var _sound: egret.Sound;
-        var _channel: egret.SoundChannel;
-        var _pauseTime: number = 0;
-
-   function loadSound(): void {
+ 
+ /* 
+   private loadSound()
+   {
+        function loadSound(): void {
         var sound: egret.Sound = new egret.Sound();
         //sound 加载完成监听
         this._sound =sound=RES.getRes("faded_mp3");
@@ -209,7 +180,99 @@ class Main extends egret.DisplayObjectContainer {
             //console.log("12315664654899498498");
         }
     
+        }
+   }*/  
+    /**
+     * 创建游戏场景
+     * Create a game scene
+     */
+    private createGameScene():void {
+        // this.Pages=[index,FirstPage,SecondPage];
+        // var num=3;
+        
+    /**
+     * 创建主页
+     * Create a game scene
+     */
+        
+        var index=new egret.DisplayObjectContainer;
+        index.y=0;
+        index.width=stageW;
+        index.height=stageH;
+        this.addChild(index);
 
+        var sky:egret.Bitmap = this.createBitmapByName("earth_jpg");
+        index.addChild(sky);
+        var stageW:number = this.stage.stageWidth;
+        var stageH:number = this.stage.stageHeight;
+        sky.width = stageW;
+        sky.height = stageH;
+         
+       var musicPage:egret.Bitmap=new egret.Bitmap;
+       var channel: egret.SoundChannel;
+       var pauseTime: number = 0;
+       // this.loadSound();
+        var sound: egret.Sound = new egret.Sound();
+        //sound 加载完成监听
+        sound=RES.getRes("Fade_mp3");
+        channel=sound.play(0,0);
+        
+        var Anim_point =0;//定义按钮模式
+
+        musicPage= this.createBitmapByName("music_png");
+        musicPage.x = musicPage.width/2-5;
+        musicPage.y = 150+musicPage.height/2;
+        musicPage.scaleX=0.4;
+        musicPage.scaleY=0.4;
+        musicPage.$alpha=0.8;
+        changeanchor(musicPage);
+        musicPage.touchEnabled = true;
+
+        //index.addChild(music);
+        //stop
+        //music.addEventListener(egret.TouchEvent.TOUCH_TAP,changeAnim,this);
+        musicPage.addEventListener(egret.TouchEvent.TOUCH_TAP, changeAnim, this);
+        var Sizetimer:egret.Timer = new egret.Timer(3000,0);
+        //注册事件侦听器
+        Sizetimer.addEventListener(egret.TimerEvent.TIMER,ChangeSizeByself,this);
+        Sizetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,()=>{ },this);
+        //开始计时
+      //  ChangeSizeByself();
+       egret.Tween.get(musicPage).to({scaleX:0.3,scaleY:0.3},1000, egret.Ease.sineIn)
+                .wait(500).to({scaleX:0.7,scaleY:0.7},1000, egret.Ease.sineIn).wait(500);//进行第一次播放
+        Sizetimer.start();
+
+        var rotationtimer:egret.Timer = new egret.Timer(30,0);
+        //注册事件侦听器
+        rotationtimer.addEventListener(egret.TimerEvent.TIMER,()=>{musicPage.rotation += 0.2;},this);
+        rotationtimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,()=>{ },this);
+        //开始计时
+        rotationtimer.start();
+        index.addChild(musicPage);
+
+        function changeanchor(icon:egret.Bitmap):void {
+            icon.anchorOffsetX = icon.width/2;
+            icon.anchorOffsetY = icon.height/2;//改变锚点位置
+         } 
+           
+        function changeAnim(e: egret.TouchEvent): void {
+            Anim_point = (Anim_point + 1 ) % 2;
+            switch (Anim_point) {
+                case 0 : 
+                    channel=sound.play(pauseTime,0);
+                    break;
+                case 1 :
+                    pauseTime = channel.position; 
+                    channel.stop();
+                    channel = null;
+                    break;
+             } 
+        }
+
+        function  ChangeSizeByself():void{
+            egret.Tween.get(musicPage).to({scaleX:0.3,scaleY:0.3},1000, egret.Ease.sineIn)
+                .wait(500).to({scaleX:0.7,scaleY:0.7},1000, egret.Ease.sineIn).wait(500);
+        }
           /**
            * 
            * 
@@ -691,7 +754,6 @@ function onMove(e:egret.TouchEvent){
                 }
                 
         }
-    }
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
